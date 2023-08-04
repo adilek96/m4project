@@ -4,8 +4,13 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: ["Roboto", "system-ui", "sans-serif"],
+      mono: ["Space-mono", "system-ui", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        "3xl": "0px 4px 6px 0px #00000026",
+      },
+    },
   },
   plugins: [],
 };

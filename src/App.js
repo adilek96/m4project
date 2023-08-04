@@ -1,7 +1,8 @@
 import Accounting from "./pages/Accounting";
+import Stocks from "./pages/Stocks";
 
 function App() {
-  return <Accounting />;
+  return <Stocks />;
 }
 
 export default App;

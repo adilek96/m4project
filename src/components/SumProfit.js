@@ -2,7 +2,7 @@ import React from "react";
 
 export default function SumProfit() {
   return (
-    <section className="min-w-full h-[125px]  grid grid-cols-12 drop-shadow shadow p-4">
+    <section className="min-w-full h-[125px]  grid grid-cols-12">
       <div className=" h-[78px] text-[4rem] col-start-6 col-span-3 place-self-start  ">
         24 250.<span className="text-[2rem]">00 $</span>
       </div>
