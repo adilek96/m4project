@@ -30,16 +30,16 @@ const Footer = () => {
           <p className="text-yellow-400 text-[22px] col-start-2 col-span-1 place-self-center">
             Balance:
           </p>
-          <p className="text-yellow-400 text-4xl col-start-6 col-span-2 place-self-center">
+          <div className="text-yellow-400 text-4xl col-start-6 col-span-2 place-self-center">
             {loading ? (
-              <div className="animate-pulse bg-gray-200 h-8 w-[150px] rounded-lg "></div>
+              <p className="animate-pulse bg-gray-200 h-8 w-[150px] rounded-lg "></p>
             ) : (
               <>
                 {integerPart}
                 <span className="text-[22px]">.{fractionalPart}$</span>
               </>
             )}
-          </p>
+          </div>
         </>
       )}
     </footer>

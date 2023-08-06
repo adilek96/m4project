@@ -9,7 +9,7 @@ export default function Stocks() {
     <>
       <Header />
       <Line />
-      <St />
+      <Stock />
       <Footer />
     </>
   );
