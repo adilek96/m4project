@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
   try {
     const response = await axios.get(
-      "https://financialmodelingprep.com/api/v3/company/stock/list?apikey=41655d985fdf712790a4451f63006794"
+      "https://financialmodelingprep.com/api/v3/company/stock/list?apikey=79681a1e0a6c83847d20397fc5bc9e96"
     );
 
     return response.data.symbolsList;
@@ -16,7 +16,7 @@ export const fetchStocks = createAsyncThunk("stocks/fetchStocks", async () => {
 const stocksSlice = createSlice({
   name: "stocks",
   initialState: {
-    data: {},
+    data: [],
     loading: false,
     error: null,
     complete: false,

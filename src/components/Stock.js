@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStocks } from "../redux/stocksSlice";
+import { setCurrentPage } from "../redux/paginationSlice";
 import SearchInput from "./SearchInput";
+import Pagination from "./Pagination";
 
 export default function Stock() {
+  const { currentPage, dataPerPage } = useSelector((state) => state.pagination);
   //получаю стейт из редакса
   const { data, loading, error, complete } = useSelector(
     (state) => state.stocks
@@ -13,14 +16,23 @@ export default function Stock() {
   //диспачу функцию получения баланса из api
   useEffect(() => {
     dispatch(fetchStocks());
-  }, [dispatch]);
+  }, []);
   // console.log(data);
 
+  const lastDataIndex = currentPage * dataPerPage;
+  const firstDataIndex = lastDataIndex - dataPerPage;
+  const currentData = data.slice(firstDataIndex, lastDataIndex);
+
+  // функция пагинации изменяет стейт currentPage при клике на числа
+  const paginate = (pageNumber) => {
+    dispatch(setCurrentPage(pageNumber));
+  };
+
   return (
-    <section className="min-w-full flex flex-col items-center gap-8 ">
+    <section className="min-w-full flex flex-col items-center gap-4  ">
       <SearchInput />
-      <div>
-        <table className="table-fixed w-[760px]   ">
+      <div className="overflow-auto h-[270px]">
+        <table className="table-fixed w-[760px] ">
           <thead>
             {error ? (
               <p>"error"</p>
@@ -45,9 +57,9 @@ export default function Stock() {
                   <>
                     {complete ? (
                       <>
-                        {data.map((item) => {
+                        {currentData.map((item) => {
                           return (
-                            <tr key={item.name} className="h-[65px]">
+                            <tr key={item.symbol} className="h-[65px]">
                               <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
                                 {item.symbol}
                               </td>
@@ -69,6 +81,11 @@ export default function Stock() {
           </thead>
         </table>
       </div>
+      <Pagination
+        dataPerPage={dataPerPage}
+        totalData={data.length}
+        paginate={paginate}
+      />
     </section>
   );
 }
