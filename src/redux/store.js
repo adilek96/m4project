@@ -1,15 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import balanceReducer from "./balanceSlice"; // Импортируйте ваш Redux Slice
+import balanceReducer from "./balanceSlice";
 import stocksSlice from "./stocksSlice";
 import paginationSlice from "./paginationSlice";
 import searchSlice from "./searchSlice";
+import buySlice from "./buySlice";
 
 const store = configureStore({
   reducer: {
-    balance: balanceReducer, // Добавьте ваш Redux Slice в объект конфигурации
+    balance: balanceReducer,
     stocks: stocksSlice,
     pagination: paginationSlice,
     search: searchSlice,
+    buy: buySlice,
   },
 });
 

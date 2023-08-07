@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStocks } from "../redux/stocksSlice";
 import { setCurrentPage } from "../redux/paginationSlice";
+import { setItem } from "../redux/buySlice";
+import { NavLink } from "react-router-dom";
 
 import SearchInput from "./SearchInput";
 import Pagination from "./Pagination";
@@ -26,6 +28,10 @@ export default function Stock() {
   // функция пагинации изменяет стейт currentPage при клике на числа
   const paginate = (pageNumber) => {
     dispatch(setCurrentPage(pageNumber));
+  };
+  // функция изменения состояния стейта item при клике на элемент из списка
+  const saveItemData = (item) => {
+    dispatch(setItem(item));
   };
 
   return (
@@ -62,9 +68,13 @@ export default function Stock() {
                       <>
                         {currentData.map((item) => {
                           return (
-                            <tr key={item.symbol} className="h-[65px]">
+                            <tr
+                              key={item.symbol}
+                              className="h-[65px]"
+                              onClick={() => saveItemData(item)}
+                            >
                               <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
-                                {item.symbol}
+                                <NavLink to="/buy">{item.symbol}</NavLink>
                               </td>
                               <td className="w-[600px]">{item.name}</td>
                               <td>{item.price}</td>
