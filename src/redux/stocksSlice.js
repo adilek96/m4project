@@ -17,11 +17,18 @@ const stocksSlice = createSlice({
   name: "stocks",
   initialState: {
     data: [],
+    filteringData: [],
     loading: false,
     error: null,
     complete: false,
+    compledetd: false,
   },
-  reducers: {},
+  reducers: {
+    setFilteringData: (state, action) => {
+      state.filteringData = action.payload;
+      state.completed = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchStocks.pending, (state) => {
@@ -39,6 +46,6 @@ const stocksSlice = createSlice({
       });
   },
 });
-
+export const { setFilteringData } = stocksSlice.actions;
 export default stocksSlice.reducer;
 //==============================================================

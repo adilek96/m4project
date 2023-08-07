@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchStocks } from "../redux/stocksSlice";
 import { setCurrentPage } from "../redux/paginationSlice";
+
 import SearchInput from "./SearchInput";
 import Pagination from "./Pagination";
 
 export default function Stock() {
+  // принимаю стейты
   const { currentPage, dataPerPage } = useSelector((state) => state.pagination);
-  //получаю стейт из редакса
-  const { data, loading, error, complete } = useSelector(
+  const { loading, error, filteringData, completed } = useSelector(
     (state) => state.stocks
   );
   const dispatch = useDispatch();
@@ -16,12 +17,11 @@ export default function Stock() {
   //диспачу функцию получения баланса из api
   useEffect(() => {
     dispatch(fetchStocks());
-  }, []);
-  // console.log(data);
+  }, [dispatch]);
 
   const lastDataIndex = currentPage * dataPerPage;
   const firstDataIndex = lastDataIndex - dataPerPage;
-  const currentData = data.slice(firstDataIndex, lastDataIndex);
+  const currentData = filteringData.slice(firstDataIndex, lastDataIndex);
 
   // функция пагинации изменяет стейт currentPage при клике на числа
   const paginate = (pageNumber) => {
@@ -35,10 +35,12 @@ export default function Stock() {
         <table className="table-fixed w-[760px] ">
           <thead>
             {error ? (
+              /* при ошибке будет отображатся  */
               <p>"error"</p>
             ) : (
               <>
                 {loading ? (
+                  /* при загрузке будет отображатся  */
                   <>
                     <tr className="h-[65px]">
                       <td className="animate-pulse bg-gray-200 h-4 rounded-lg "></td>
@@ -55,7 +57,8 @@ export default function Stock() {
                   </>
                 ) : (
                   <>
-                    {complete ? (
+                    {completed ? (
+                      /* после загрузки выводится элементы таблици  */
                       <>
                         {currentData.map((item) => {
                           return (
@@ -83,7 +86,7 @@ export default function Stock() {
       </div>
       <Pagination
         dataPerPage={dataPerPage}
-        totalData={data.length}
+        totalData={filteringData.length}
         paginate={paginate}
       />
     </section>
