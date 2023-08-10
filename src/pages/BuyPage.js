@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Line from "../components/Line";
 import BuySubheader from "../components/BuySubheader";
+import Buy from "../components/Buy";
 
 export default function BuyPage() {
   return (
@@ -10,7 +11,7 @@ export default function BuyPage() {
       <Header />
       <BuySubheader />
       <Line />
-
+      <Buy />
       <Footer />
     </>
   );

@@ -19,7 +19,7 @@ export const fetchBalance = createAsyncThunk(
 const balanceSlice = createSlice({
   name: "balance",
   initialState: {
-    data: {},
+    balance: {},
     loading: false,
     error: null,
   },
@@ -32,7 +32,7 @@ const balanceSlice = createSlice({
       })
       .addCase(fetchBalance.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.balance = action.payload;
       })
       .addCase(fetchBalance.rejected, (state, action) => {
         state.loading = false;

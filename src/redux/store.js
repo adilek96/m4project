@@ -4,6 +4,7 @@ import stocksSlice from "./stocksSlice";
 import paginationSlice from "./paginationSlice";
 import searchSlice from "./searchSlice";
 import buySlice from "./buySlice";
+import userStockSlice from "./userStockSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     pagination: paginationSlice,
     search: searchSlice,
     buy: buySlice,
+    userStock: userStockSlice,
   },
 });
 

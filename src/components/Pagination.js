@@ -10,7 +10,7 @@ export default function Pagination({ dataPerPage, totalData, paginate }) {
     const selected = selectedPage.selected + 1;
     paginate(selected);
   };
-
+ 
   return (
     <ReactPaginate
       previousLabel={"<"}

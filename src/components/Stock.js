@@ -73,11 +73,13 @@ export default function Stock() {
                               className="h-[65px]"
                               onClick={() => saveItemData(item)}
                             >
-                              <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
-                                <NavLink to="/buy">{item.symbol}</NavLink>
-                              </td>
-                              <td className="w-[600px]">{item.name}</td>
-                              <td>{item.price}</td>
+                              <NavLink to="/buy">
+                                <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
+                                  {item.symbol}
+                                </td>
+                                <td className="w-[600px]">{item.name}</td>
+                                <td>{item.price}</td>
+                              </NavLink>
                             </tr>
                           );
                         })}

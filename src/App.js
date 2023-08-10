@@ -6,8 +6,8 @@ import { Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Stocks />} />
-      <Route path="stocks" element={<Accounting />} />
+      <Route path="/" element={<Accounting />} />
+      <Route path="stocks" element={<Stocks />} />
       <Route path="buy" element={<BuyPage />} />
     </Routes>
   );

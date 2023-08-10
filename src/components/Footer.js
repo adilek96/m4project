@@ -4,11 +4,11 @@ import { fetchBalance } from "../redux/balanceSlice";
 
 const Footer = () => {
   //получаю стейт из редакса
-  const { data, loading, error } = useSelector((state) => state.balance);
+  const { balance, loading, error } = useSelector((state) => state.balance);
   const dispatch = useDispatch();
 
   //получаю целую и дробную части из даты
-  const numberAsString = data.currentBalance;
+  const numberAsString = balance.currentBalance;
   const integerPart = parseInt(numberAsString);
   const fractionalPart = parseFloat((numberAsString - integerPart).toFixed(2))
     .toString()
