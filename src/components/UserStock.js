@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserStock } from "../redux/userStockSlice";
+import { fetchUserStock, setTotalProfit } from "../redux/userStockSlice";
 import { fetchStocks } from "../redux/stocksSlice";
+import Pagination from "./Pagination";
+import { setCurrentPage } from "../redux/paginationSlice";
 
 export default function UserStock() {
-  // const { currentPage, dataPerPage } = useSelector((state) => state.pagination);
+  const { currentPage, dataPerPage } = useSelector((state) => state.pagination);
   const { loading, error, stock, complete } = useSelector(
     (state) => state.userStock
   );
@@ -16,7 +18,7 @@ export default function UserStock() {
     dispatch(fetchStocks());
     dispatch(fetchUserStock());
   }, [dispatch]);
-
+  const diffArr = [];
   //получаю разницу между закупочной и реальной ценой в числовом и процентном соотношении
   const calculateTotalValue = (item, data) => {
     const foundData = data.find((el) => el.symbol === item.ticker);
@@ -25,6 +27,7 @@ export default function UserStock() {
       const current = foundData.price * item.amount;
 
       const diff = current - purchase;
+
       const percDiff = ((diff / purchase) * 100).toFixed(2);
 
       // Добавляю стрелочки и знак +/-
@@ -71,9 +74,14 @@ export default function UserStock() {
     };
   };
 
+  // функция пагинации изменяет стейт currentPage при клике на числа
+  const paginate = (pageNumber) => {
+    dispatch(setCurrentPage(pageNumber));
+  };
+
   return (
     <section className="min-w-full flex flex-col items-center gap-4 ">
-      <div className="overflow-auto h-[270px] mt-[20px]">
+      <div className="overflow-auto h-[230px] mt-[20px]">
         <table className="table-fixed w-[760px] ">
           <thead>
             {error ? (
@@ -146,6 +154,11 @@ export default function UserStock() {
           </thead>
         </table>
       </div>
+      <Pagination
+        dataPerPage={dataPerPage}
+        totalData={stock.length}
+        paginate={paginate}
+      />
     </section>
   );
 }

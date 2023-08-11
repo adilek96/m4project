@@ -34,19 +34,19 @@ export default function Buy() {
   //функция вызова фетч запроса
   const buyHandle = () => {
     const userData = {
-      id: "222",
+      id: item.id,
       userId: "1",
       code: "Credit Card Account",
-      amount: "2",
-      purchasePrice: "222",
-      ticker: "dfdfs",
-      name: "ttret",
+      amount: pcs,
+      purchasePrice: totalItemPrice,
+      ticker: item.symbol,
+      name: item.name,
     };
     dispatch(setData(userData));
     axios({
       method: "post",
       url: "https://5e8da89e22d8cd0016a798db.mockapi.io/users/1/stocks",
-      data: data,
+      data: userData,
       headers: {
         "Content-Type": "application/json",
       },
@@ -58,7 +58,6 @@ export default function Buy() {
         currentBalance: balance.currentBalance - totalItemPrice,
       },
     });
-    console.log(data);
   };
 
   return (
