@@ -20,6 +20,7 @@ const userStockSlice = createSlice({
   name: "userStock",
   initialState: {
     stock: [],
+    resultStock: [],
     loading: false,
     error: null,
     complete: false,
@@ -35,6 +36,9 @@ const userStockSlice = createSlice({
     },
     setTotalProfit: (state, actions) => {
       state.totalProfit = actions.payload;
+    },
+    setResultStock: (state, actions) => {
+      state.resultStock = actions.payload;
     },
   },
 
@@ -55,6 +59,6 @@ const userStockSlice = createSlice({
       });
   },
 });
-export const { setData, setPurchaseSum, setTotalProfit } =
+export const { setData, setPurchaseSum, setTotalProfit, setResultStock } =
   userStockSlice.actions;
 export default userStockSlice.reducer;

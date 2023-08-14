@@ -4,22 +4,26 @@ import { setPurchaseSum } from "../redux/userStockSlice";
 import { setTotalProfit } from "../redux/userStockSlice";
 
 export default function SumProfit() {
-  const { stock, complete, purchaseSum, totalProfit } = useSelector(
+  const { resultStock, complete, purchaseSum, totalProfit } = useSelector(
     (state) => state.userStock
   );
   const { data } = useSelector((state) => state.stocks);
   const dispatch = useDispatch();
 
   // получаю обьщюю стоимость акций и профит
-
   useEffect(() => {
     // получаю массив всех цен акций юзера
-    const purchaseArr = stock.map((item) => {
+    const purchaseArr = resultStock.map((item) => {
       return item.purchasePrice;
     });
+    // получаю массив  количеств акций юзера
+    const amountArr = resultStock.map((item) => {
+      return item.amount;
+    });
+
     // нахожу реальные цены акций
-    // сначала получаю массив симболов акций пользователя
-    const userTickerArr = stock.map((item) => {
+    // сначала получаю массив символов акций пользователя
+    const userTickerArr = resultStock.map((item) => {
       return item.ticker;
     });
     // создаю массив с совподающеми акциями
@@ -31,8 +35,13 @@ export default function SumProfit() {
     const newPriceArr = newTickerArr.map((item) => {
       return item.price;
     });
+
+    const newFullPrice = newPriceArr.map((item, i) => {
+      return item * amountArr[i];
+    });
+
     // обьеденяю цены на новые акции
-    const priceSum = newPriceArr.reduce(
+    const priceSum = newFullPrice.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
@@ -43,10 +52,11 @@ export default function SumProfit() {
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
+
     const totalSumProfit = (priceSum - purchaseSum).toFixed(2);
-    dispatch(setPurchaseSum(purchaseSum));
     dispatch(setTotalProfit(totalSumProfit));
-  }, [complete]);
+    dispatch(setPurchaseSum(purchaseSum));
+  }, [complete, resultStock]);
 
   //разбиваю сумму на целую и дробную часть
   const calculateIntFrac = () => {

@@ -38,7 +38,7 @@ export default function Stock() {
     <section className="min-w-full flex flex-col items-center gap-4  ">
       <SearchInput />
       <div className="overflow-auto h-[270px]">
-        <table className="table-fixed w-[760px] ">
+        <table className="table-fixed w-[760px]  ">
           <thead>
             {error ? (
               /* при ошибке будет отображатся  */
@@ -70,16 +70,20 @@ export default function Stock() {
                           return (
                             <tr
                               key={item.symbol}
-                              className="h-[65px]"
+                              className="h-[65px] border-b-2 border-dashed border-gray-100 cursor-pointer hover:bg-pink-50  "
                               onClick={() => saveItemData(item)}
                             >
-                              <NavLink to="/buy">
-                                <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
-                                  {item.symbol}
-                                </td>
-                                <td className="w-[600px]">{item.name}</td>
-                                <td>{item.price}</td>
-                              </NavLink>
+                              <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px] ">
+                                <NavLink to="/buy">{item.symbol}</NavLink>
+                              </td>
+                              <td className="w-[600px]">
+                                <NavLink to="/buy">{item.name}</NavLink>
+                              </td>
+                              <td>
+                                <NavLink to="/buy">
+                                  {item.price.toFixed(2)}
+                                </NavLink>
+                              </td>
                             </tr>
                           );
                         })}

@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUserStock, setTotalProfit } from "../redux/userStockSlice";
+import { fetchUserStock, setResultStock } from "../redux/userStockSlice";
 import { fetchStocks } from "../redux/stocksSlice";
 import Pagination from "./Pagination";
 import { setCurrentPage } from "../redux/paginationSlice";
 
 export default function UserStock() {
-  const { currentPage, dataPerPage } = useSelector((state) => state.pagination);
-  const { loading, error, stock, complete } = useSelector(
+  const { dataPerPage } = useSelector((state) => state.pagination);
+  const { loading, error, stock, complete, resultStock } = useSelector(
     (state) => state.userStock
   );
   const { data } = useSelector((state) => state.stocks);
@@ -17,8 +17,25 @@ export default function UserStock() {
   useEffect(() => {
     dispatch(fetchStocks());
     dispatch(fetchUserStock());
-  }, [dispatch]);
-  const diffArr = [];
+  }, [complete, dispatch]);
+
+  useEffect(() => {
+    const idToObjectsMap = new Map();
+
+    for (const obj of stock) {
+      if (idToObjectsMap.has(obj.ticker)) {
+        const existingObj = idToObjectsMap.get(obj.ticker);
+        existingObj.amount += obj.amount;
+        existingObj.purchasePrice += obj.purchasePrice;
+      } else {
+        idToObjectsMap.set(obj.ticker, { ...obj });
+      }
+    }
+
+    const resultOfStock = Array.from(idToObjectsMap.values());
+    dispatch(setResultStock(resultOfStock));
+  }, [complete, dispatch, stock]);
+
   //получаю разницу между закупочной и реальной ценой в числовом и процентном соотношении
   const calculateTotalValue = (item, data) => {
     const foundData = data.find((el) => el.symbol === item.ticker);
@@ -82,7 +99,7 @@ export default function UserStock() {
   return (
     <section className="min-w-full flex flex-col items-center gap-4 ">
       <div className="overflow-auto h-[230px] mt-[20px]">
-        <table className="table-fixed w-[760px] ">
+        <table className="table-fixed w-[760px]  ">
           <thead>
             {error ? (
               /* при ошибке будет отображатся  */
@@ -92,7 +109,7 @@ export default function UserStock() {
                 {loading ? (
                   /* при загрузке будет отображатся  */
                   <>
-                    <tr className="h-[65px]">
+                    <tr className="h-[65px] ">
                       <td className="animate-pulse bg-gray-200 h-4 rounded-lg "></td>
                     </tr>
                     <tr className="h-[65px]">
@@ -110,9 +127,12 @@ export default function UserStock() {
                     {complete ? (
                       /* после загрузки выводится элементы таблици  */
                       <>
-                        {stock.map((item) => {
+                        {resultStock.map((item) => {
                           return (
-                            <tr key={item.id} className="h-[65px]">
+                            <tr
+                              key={item.id}
+                              className="h-[65px] border-b-2 border-dashed border-gray-100 cursor-pointer hover:bg-pink-50 "
+                            >
                               <td className="w-[80px] pl-4 text-gray-500 font-mono text-[12px]">
                                 {item.ticker}
                               </td>

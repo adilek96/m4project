@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setData } from "../redux/userStockSlice";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -8,9 +9,10 @@ export default function Buy() {
   const [pcs, setPcs] = useState(1);
   const { item } = useSelector((state) => state.buy);
   const { balance } = useSelector((state) => state.balance);
-  const { data } = useSelector((state) => state.userStock);
+
   const dispatch = useDispatch();
   const [totalItemPrice, setTotalItemPrice] = useState(item.price);
+  const navigate = useNavigate();
 
   //получаю целую и дробную части из даты
   const numberAsString = item.price;
@@ -58,6 +60,7 @@ export default function Buy() {
         currentBalance: balance.currentBalance - totalItemPrice,
       },
     });
+    navigate("/");
   };
 
   return (
@@ -88,7 +91,7 @@ export default function Buy() {
         </div>
         <p className="text-[24px] place-self-center">
           Buy for <span className="text-[28px]">{integerPar}</span>
-          <span>.{fractionalPar}</span>
+          <span>.{fractionalPar}</span>$
         </p>
         <button
           className="place-self-center w-[174px] text-[24px] text-purple-600 border-4 rounded-[49px] h-[49px] border-purple-600 hover:text-orange-300 hover:border-orange-300"
